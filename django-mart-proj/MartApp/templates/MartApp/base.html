@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="icon" type="image/png"  href="{% static 'ShipMart/cart1.jpg'  %}">
+    <title>Mart</title>
+
+    <!--CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'ShipMart/css/Style.css' %}">
+
+    <!--JAVA SCRIPT-->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</head>
+
+<body style="background-color:#c2b225" class="shadow">
+
+    <nav class="navbar navbar-expand-md navbar-light bg-success shadow">
+        <div class="container">
+        {% if user.is_authenticated %}
+            <a class="navbar-brand img" href="{% url 'index' %}">
+                <img src="{% static 'ShipMart/emart.svg.png' %}" width="100" height="30" class="d-inline-block align-top">
+            </a>
+        {% else %}
+            <a class="navbar-brand img" href="{% url 'item' %}">
+                <img src="{% static 'ShipMart/emart.svg.png' %}" width="100" height="30" class="d-inline-block align-top">
+            </a>
+        {% endif %}
+
+            <button class="navbar-toggler  shadow" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon "></span>
+            </button>
+
+            <div class="navbar-collapse collapse " id="navbarNav">
+            {% if user.is_authenticated %}
+                <ul class="navbar-nav mr-auto">
+                    <li
+                    {% if '/' == request.path %}
+                    class="nav-item shadow list"  style="margin-left:10px;padding-left:10px"
+                    {% else %}
+                    class="nav-item shadow cold"  style="margin-left:10px;padding-left:10px"
+                    {% endif %}
+                    >
+                    <a class="nav-link " href="{% url 'item' %}">All Mart Items</a>
+                    </li>
+
+                    <li
+                    {% if 'list' in request.path %}
+                    class="nav-item shadow list"  style="margin-left:10px;padding-left:10px"
+                    {% else %}
+                    class="nav-item shadow cold"  style="margin-left:10px;padding-left:10px"
+                    {% endif %}
+                    >
+                    <a class="nav-link " href="{% url 'list' %}">List</a>
+                    </li>
+
+                    <li
+                    {% if 'complete'  in request.path %}
+                    class="nav-item shadow list"  style="margin-left:10px;padding-left:10px"
+                    {% else %}
+                    class="nav-item shadow cold"  style="margin-left:10px;padding-left:10px"
+                    {% endif %}
+                    >
+                    <a class="nav-link " href="{% url 'complete' %}">Completed</a>
+                    </li>
+
+                    <li
+                    {% if 'create' in  request.path %}
+                    class="nav-item shadow list"  style="margin-left:10px;padding-left:10px"
+                    {% else %}
+                    class="nav-item shadow cold"  style="margin-left:10px;padding-left:10px"
+                    {% endif %}
+                    >
+                    <a class="nav-link " href="{% url 'create' %}">Create</a>
+                    </li>
+                </ul>
+            {% endif %}
+
+
+                <ul class="navbar-nav ml-auto">
+                 {% if user.is_authenticated %}
+                    <li class="shadow ig" style="padding:8px 15px 8px 15px;color:maroon;margin-left:10px;"
+                    >Welcome, {{user.first_name|capfirst}}
+                    </li>
+                    <li
+                     {% if 'index' in  request.path %}
+                    class="nav-item shadow"  style="margin-left:10px;padding-left:10px;background-color:#c2b225;"
+                    {% else %}
+                    class="nav-item shadow cold"  style="margin-left:10px;padding-left:10px"
+                    {% endif %}
+                    >
+                    <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+                    </li>
+                {% else %}
+                    <li
+                     {% if 'signup' in  request.path %}
+                    class="nav-item shadow list"  style="margin-left:20px;padding-left:10px"
+                    {% else %}
+                    class="nav-item shadow cold"  style="margin-left:20px;padding-left:10px"
+                    {% endif %}
+                    >
+                    <a class="nav-link" href="{% url 'signup' %}">Sign Up</a>
+                    </li>
+
+                    <li
+                    {% if 'login' in  request.path %}
+                    class="nav-item shadow list"  style="margin-left:20px;padding-left:10px"
+                    {% else %}
+                    class="nav-item shadow cold"  style="margin-left:20px;padding-left:10px"
+                    {% endif %}
+                    >
+                    <a class="nav-link" href="{% url 'login' %}">Login</a>
+                    </li>
+                 {% endif %}
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+
+{% block content %}
+
+{% endblock %}
+
+</body>
+</html>

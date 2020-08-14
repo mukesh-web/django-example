@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'MartApp/base.html' %}
+<head>
+    <meta charset="UTF-8">
+    <title>detail</title>
+</head>
+<body>
+{% block content %}
+<div style="background-color:#9ac234">
+<br>
+    {% if user.is_authenticated %}
+    <div class="row justify-content-center mt-5 second" style="padding-left:30px;padding-right:15px;color:#282ed4;">
+        <div class="col-md-5" style="margin-top:-20px">
+            <h2>Detail : ID {{marts.id}}</h2>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="row justify-content-center mt-5" style="padding-left:15px;padding-right:15px;">
+        <div class="col-md-5">
+            {% for message in messages %}
+            <div class="alert {{ message.tags }} m-2 shadow" id="msg" role="alert">
+                {{ message|safe }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+
+            {% if user.is_authenticated %}
+            <div class="container " style="margin-top:-20px">
+                <div class="second" style="padding-bottom:10px;color:#300930;font-size:35px;">{{marts.title|capfirst}}
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+
+                        {% if marts.image %}
+                        <div class="my">
+                            <img class="shadow ig" src="{{marts.image.url}}" width="400" height="250">
+                            {% if marts.offer %}
+                            <div class="t" style="margin-top:-50px;">
+                                <h5 class="my"style="color:maroon;">50% Off</h5>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        {% else %}
+                        <a href="{% url 'update' marts.pk %}" class="shadow list-group-item list-group-item-action list-group-item-warning" > Please click here to Upload Image!</a>
+                        {% endif %}
+                    </div>
+                </div>
+                <h3 class="second" style="color:#788014;padding-top:20px;">Price : {{marts.price}} Rs.</h3>
+                <h5 class="second" style="padding-bottom:20px;color:#7a4716;">Description : {{marts.desc|capfirst}}</h5>
+                <h5 class="second" style="margin-top:-10px;padding-bottom:20px;color:#300930;">Created : {{marts.created}}</h5>
+
+                {% if marts.datecompleted %}
+                <a  role="button" class="btn btn-warning btn ig" href="{% url 'update' marts.pk %}">Recover</a>
+                <a  style="margin-left:15px;" role="button" class="btn btn-danger btn ig" href="{% url 'delete' marts.pk %}">Delete</a>
+                <a style="margin-left:15px;"  role="button" class="btn btn-primary btn ig" href="{% url 'pdf' marts.pk %}">PDF</a>
+                {% else %}
+                <a role="button" class="btn btn-warning btn ig" href="{% url 'update' marts.pk %}">Update</a>
+                <a style="margin-left:15px;" role="button" class="btn btn-success btn ig" href="{% url 'MartCompleted' marts.pk %}">Completed</a>
+                <a  style="margin-left:15px;" role="button" class="btn btn-danger btn ig" href="{% url 'delete' marts.pk %}">Delete</a>
+
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+<hr>
+</div>
+
+{% endblock %}
+</body>
+</html>

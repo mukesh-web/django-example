@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'MartApp/base.html' %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+
+{% block content %}
+
+<div style="background-color:#9ac234">
+<br>
+    <div class="row justify-content-center mt-5" style="padding-left:15px;padding-right:15px;">
+        <div class="col-md-5">
+            {% for message in messages %}
+            <div class="alert {{ message.tags }} m-2 shadow" id="msg" role="alert">
+                {{user.first_name}} {{ message|safe }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    {% if not user.is_authenticated  %}
+    <div class="row justify-content-center mt-5" style="padding-left:10px;padding-right:10px;">
+        <div class="col-md-7 text-center">
+            <h1 class="card-title second">Online Shop Mart</h1>
+            <p class="card-text" style="color:#0a0101">It is <b>Mart Todo</b>.Which contains small logic  about online Shop Mart.</p>
+            <a role="button" class=" btn btn-primary btn-lg ig" style="background-color:#393fe6" href="{% url 'signup' %}">Start</a>
+        </div>
+    </div>
+    <hr>
+    {% endif %}
+
+
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-7 text-center second" style="color:#ff6a00;margin-top:-20px ">
+            <h2>All Users Mart {{marts.count}} Item{{marts.count|pluralize}}</h2>
+        </div>
+        <br>
+
+        <div class="container" style="margin-top:30px;">
+            <div class="row" style="padding-left:10px;padding-right:10px;">
+                {% for mart in marts %}
+                <div class="col-md-4">
+                    {% if not  mart.image  %}
+                    <div class="cool" style="padding-bottom:10px;color:#251c9c">{{mart.title}}</div>
+                    {%  endif %}
+
+                    {% if mart.image %}
+                    <div class="my polaroid" >
+                        <div class="cool" style="padding-bottom:10px;color:#251c9c">{{mart.title}}</div>
+                        <a href="{% url 'detail' mart.pk %}">
+                            <img class="img polaroid" src="{{mart.image.url}}" width="300" height="200"></a>
+
+                        {% if mart.offer %}
+                        <div class="t">
+                            <h5 class="my"style="color:maroon">50% Off</h5>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    {% else %}
+                    <a href="{% url 'update' mart.pk %}" class="shadow list-group-item list-group-item-action list-group-item-warning cold" > Please click here to  Upload Image!</a>
+                    {% endif %}
+                    <h3 class="second" style="color:#788014;margin:10px 10px">Price : {{mart.price}} Rs.</h3>
+                    <h5 class="second"style="margin-left:10px;padding-bottom:20px;color:#7a4716">{{mart.desc|capfirst}}</h5>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {% endblock %}
+</div>
+
+</body>
+</html>

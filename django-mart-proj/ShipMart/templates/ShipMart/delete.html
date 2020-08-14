@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'MartApp/base.html' %}
+<head>
+    <meta charset="UTF-8">
+    <title>delete</title>
+</head>
+<body>
+{% block content %}
+<div style="background-color:#9ac234">
+<br>
+    <div class="row justify-content-center mt-5"  style="padding-left:15px;padding-right:25px;">
+        <div class="col-md-5">
+            {% for message in messages %}
+            <div class="alert {{ message.tags }} m-2 shadow" id="msg" role="alert">
+                {{ message|safe }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+
+            {% if user.is_authenticated %}
+            <div class="row justify-content-center mt-6 second"  style="padding-left:15px;padding-right:15px;color:#282ed4;">
+                <div class="col-md-12">
+                    <h2>Delete  Item ID : {{mart.id}} </h2>
+                </div>
+            </div>
+
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row justify-content-center mt-5"  style="padding-left:15px;padding-right:15px;">
+                    <div class="col-md-12">
+                        <h4 class="ig list-group-item list-group-item-action{% if mart.important %} list-group-item-danger{% endif %}"><b>Title : {{ mart.title }}</b>{% if mart.datecompleted %} -{{ mart.datecompleted|date:'M j Y H:i' }} Completed {% endif %}</h4>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center mt-5" style="margin-left:-30px">
+                    <div class="col-md-10" >
+                        <h4 class="second"  style="padding-left:30px;color:red;margin-top:-15px"> Are you want to Delete this item ?</h4>
+
+                        <button  style="margin-bottom:15px;margin-left:30px;margin-top:10px" type="submit" class="btn btn-danger ig">Yes</button>
+                        <a style="margin-bottom:15px;margin-left:15px;margin-top:10px" role="button" class="btn btn-success ig" href="{% url 'list' %}">Cancel</a>
+                    </div>
+                </div>
+            </form>
+
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+</body>
+</html>

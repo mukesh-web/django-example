@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'MartApp/base.html' %}
+<head>
+    <meta charset="UTF-8">
+    <title>list</title>
+</head>
+<body>
+
+{% block content %}
+<div style="background-color:#9ac234">
+<br>
+    <div class="row justify-content-center mt-5" style="padding-left:15px;padding-right:15px;">
+        <div class="col-md-5">
+            {% for message in messages %}
+            <div class="alert {{ message.tags }} m-2 shadow" id="msg" role="alert">
+                {{ message|safe }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% if user.is_authenticated %}
+    <div class="row justify-content-center mt-5" style="padding-left:15px;padding-right:15px;">
+        <div class="col-md-10 second" style="color:#282ed4;margin-top:-40px ">
+            {% if marts %}
+            <h1>{{ marts.count }} Current Item List{{ marts.count|pluralize }}</h1>
+            {% else %}
+            <h1>Current Item List</h1>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row justify-content-center mt-5 " style="padding-left:15px;padding-right:20px;">
+        <div class="col-md-10">
+            {% if marts %}
+
+            <div class="list-group ">
+                {% for mart in marts %}
+                <a href="{% url 'detail' mart.pk %}" class="myshade  list-group-item list-group-item-action{% if mart.important %} list-group-item-danger{% endif %}"><i><b>{{ mart.title }}</b></i>{% if mart.desc %} - {{ mart.desc|truncatechars:30 }}{% endif %}</a>
+                <br>
+                <div class=" col-md-0  text-right " >
+                    <a href="{% url 'delete' mart.pk %}" class="btn btn-danger ig">Remove</a>
+                </div>
+                <br>
+                {% endfor %}
+            </div>
+
+            {% else %}
+            <div class="text-center second" style="color:black">
+                <h2>Looks like you don't have any Mart Lists! Nice work.</h2>
+                <br>
+                <a role="button" class="btn btn-primary ig" href="{% url 'create' %}">Add Item</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+    <hr>
+</div>
+{% endblock %}
+
+</body>
+</html>
